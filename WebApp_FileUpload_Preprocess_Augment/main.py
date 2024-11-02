@@ -8,6 +8,7 @@ import librosa
 import os
 import soundfile as sf
 import base64
+import random
 
 app = FastAPI()
 
@@ -193,8 +194,8 @@ async def preprocess():
         loaded_data = cv2.cvtColor(loaded_data, cv2.COLOR_BGR2GRAY)
         preprocessed_image = encode_image(loaded_data)  # Encode preprocessed image to Base64
     elif loaded_file_type == "audio":
-        # Example preprocessing: Apply pre-emphasis
-        loaded_data = librosa.effects.preemphasis(loaded_data)
+        # Example preprocessing: Normalize audio
+        loaded_data = librosa.util.normalize(loaded_data)  # Normalize the audio
         preprocessed_audio_path = "temp/preprocessed_audio.wav"
         sf.write(preprocessed_audio_path, loaded_data, 22050)  # Save preprocessed audio
     elif loaded_file_type == "text":
@@ -214,13 +215,18 @@ async def augment():
         loaded_data = cv2.flip(loaded_data, 1)
         augmented_image = encode_image(loaded_data)  # Encode augmented image to Base64
     elif loaded_file_type == "audio":
-        # Example augmentation: Time stretch
-        loaded_data = librosa.effects.time_stretch(loaded_data, rate=1.5)
+        # Example augmentation: Play audio at 0.5x speed
+        loaded_data = librosa.effects.time_stretch(loaded_data, rate=0.5)  # Change rate to 0.5 for slower playback
         augmented_audio_path = "temp/augmented_audio.wav"
         sf.write(augmented_audio_path, loaded_data, 22050)  # Save augmented audio
     elif loaded_file_type == "text":
-        # Example augmentation: Replace spaces with underscores
-        augmented_text = uploaded_text.replace(" ", "_")  # Store augmented text
+        # Example augmentation: Repeat a random word in the text
+        words = uploaded_text.split()
+        if words:  # Check if there are words to repeat
+            word_to_repeat = random.choice(words)
+            augmented_text = uploaded_text.replace(word_to_repeat, f"{word_to_repeat} {word_to_repeat}", 1)  # Repeat the word once
+        else:
+            augmented_text = uploaded_text  # No change if text is empty
         augmented_image = None  # No image for text files
     else:
         return JSONResponse(content={"error": "Unsupported file type"}, status_code=400)
