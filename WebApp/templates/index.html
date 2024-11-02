@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Selector and File Uploader</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Animal Selector and File Uploader</h1>
+        
+        <div class="box">
+            <h2>Select an Animal</h2>
+            <div class="radio-group">
+                <label><input type="radio" name="animal" value="cat"> Cat</label>
+                <label><input type="radio" name="animal" value="dog"> Dog</label>
+                <label><input type="radio" name="animal" value="elephant"> Elephant</label>
+            </div>
+            <div id="imageContainer"></div>
+        </div>
+
+        <div class="box">
+            <h2>Upload a File</h2>
+            <label for="fileInput" class="file-input-label">Choose File</label>
+            <input type="file" id="fileInput">
+            <button onclick="uploadFile()">Upload</button>
+            <div id="fileInfo"></div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('input[name="animal"]').change(function() {
+                var animal = $(this).val();
+                console.log(animal);  // Check the value of the selected animal
+                $('#imageContainer').html('<div class="loading"></div>');
+                $.ajax({
+                    url: '/animal/' + animal,  // This should be correctly formed
+                    method: 'GET',
+                    success: function(response) {
+                        console.log(response);  // Log the response to check its structure
+                        $('#imageContainer').html('<img src="' + response.image_url + '" id="animalImage" alt="' + animal + '">');
+
+                        // Optional: Log a message if a static image is being used
+                        console.log(response.image_url);
+                    },
+                    error: function() {
+                        $('#imageContainer').html('<p>Error generating image</p>');
+                    }
+                });
+            });
+
+            $('#fileInput').change(function() {
+                $('.file-input-label').text(this.files[0].name);
+            });
+        });
+
+        function uploadFile() {
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
+            if (file) {
+                var formData = new FormData();
+                formData.append('file', file);
+
+                $('#fileInfo').html('<div class="loading"></div>');
+
+                $.ajax({
+                    url: '/upload_file',
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        $('#fileInfo').html(
+                            '<div class="file-info">' +
+                                '<p><strong>File Name:</strong> <span class="file-detail">' + response.name + '</span></p>' +
+                                '<p><strong>File Size:</strong> <span class="file-detail">' + response.size + '</span></p>' +
+                                '<p><strong>File Type:</strong> <span class="file-detail">' + response.type + '</span></p>' +
+                            '</div>'
+                        );
+                    },
+                    error: function() {
+                        $('#fileInfo').html('<p>Error uploading file</p>');
+                    }
+                });
+            } else {
+                $('#fileInfo').html('<p>Please select a file</p>');
+            }
+        }
+    </script>
+</body>
+</html>
