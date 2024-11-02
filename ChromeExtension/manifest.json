@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Daily To-Do Reminder",
+  "version": "1.0",
+  "description": "A Chrome extension for managing daily to-do items with reminders.",
+  "permissions": ["storage", "alarms", "notifications"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options.html"
+}

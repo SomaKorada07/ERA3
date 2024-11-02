@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Daily To-Do Reminder</title>
+  <style>
+    body { width: 300px; font-family: Arial, sans-serif; }
+    ul { list-style-type: none; padding: 0; }
+    li { margin-bottom: 10px; }
+    input[type="text"], input[type="time"] { width: 100%; margin-bottom: 5px; }
+  </style>
+</head>
+<body>
+  <h2>Daily To-Do List</h2>
+  <input type="text" id="taskInput" placeholder="Enter task">
+  <input type="time" id="timeInput">
+  <button id="addTask">Add Task</button>
+  <ul id="taskList"></ul>
+  <script src="popup.js"></script>
+</body>
+</html>
