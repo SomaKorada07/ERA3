@@ -9,13 +9,17 @@ class SimpleCNN(nn.Module):
     def __init__(self):
         super(SimpleCNN, self).__init__()
         self.conv1 = nn.Conv2d(1, 8, kernel_size=3)  # 28x28x1 -> 26x26x8
-        self.conv2 = nn.Conv2d(8, 16, kernel_size=3)  # 26x26x8 -> 24x24x16
-        self.fc1 = nn.Linear(16 * 24 * 24, 10)
+        self.conv2 = nn.Conv2d(8, 10, kernel_size=3)  # 26x26x8 -> 24x24x10
+        self.pool = nn.MaxPool2d(2, stride=2)  # 24x24x10 -> 12x12x10
+        self.conv3 = nn.Conv2d(10, 16, kernel_size=3)  # 12x12x10 -> 10x10x16
+        self.fc1 = nn.Linear(10 * 10 * 16, 10)
         
     def forward(self, x):
         x = torch.relu(self.conv1(x))
         x = torch.relu(self.conv2(x))
-        x = x.view(-1, 16 * 24 * 24)
+        x = self.pool(x)
+        x = torch.relu(self.conv3(x))
+        x = x.view(-1, 10 * 10 * 16)
         x = self.fc1(x)
         return x
 
