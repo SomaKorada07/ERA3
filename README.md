@@ -10,5 +10,3 @@ This project implements a machine learning pipeline using GitHub Actions for con
 - Continuous integration with GitHub Actions
 - CPU-optimized machine learning pipeline
 - Automated testing suite
-
-## Project Structure
