@@ -20,18 +20,7 @@ jobs:
         cd Github_Actions  # Change to project directory
         pip install -r requirements.txt
     
-    - name: Train model
-      run: |
-        cd Github_Actions  # Change to project directory
-        python model/train.py
-    
     - name: Run tests
       run: |
-        cd Github_Actions  # Change to project directory
+        cd MNIST_CNN  # Change to project directory
         pytest tests/
-    
-    - name: Archive model artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: trained-model
-        path: Github_Actions/models/ 
