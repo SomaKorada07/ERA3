@@ -10,3 +10,9 @@ This project implements a machine learning pipeline using GitHub Actions for con
 - Continuous integration with GitHub Actions
 - CPU-optimized machine learning pipeline
 - Automated testing suite
+
+## Advanced Training of MNIST
+![Training Logs](MNIST_CNN/screenshots/TrainingLogs.png)
+
+<!-- Alternative HTML syntax for more control -->
+<img src="path/to/your/image.png" width="600" height="400" alt="Training Logs">
