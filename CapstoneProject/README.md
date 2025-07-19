@@ -74,10 +74,10 @@ Respond in the following json format:
 ## SFT Approach
 
 ### Approach 1
-- We did full fine tuning using **Qwen 0.5B Instruct model** using the dataset (Prompt-Completion format) with 1595 records ([simulated_tasks_train.jsonl](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Data/simulated_tasks_train.jsonl)) - refer to [Starter.ipynb](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Notebooks/Starter.ipynb).
+- We did full fine tuning using **Qwen 0.5B Instruct model** using the dataset (Prompt-Completion format) with 1595 records ([simulated_tasks_train.jsonl](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Data/simulated_tasks_train.jsonl)) - refer to [Starter.ipynb](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Notebooks/Starter.ipynb).
 
 ### Approach 2
-- We did **PEFT with LORA** using **Qwen 14B Instruct model** using the dataset (Prompt-Completion format) with 1595 records with a change in prompt ([simulated_tasks_train_updated.csv](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Data/simulated_tasks_train_updated.csv)) - refer to [Training_2.ipynb](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Notebooks/Training_2.ipynb).
+- We did **PEFT with LORA** using **Qwen 14B Instruct model** using the dataset (Prompt-Completion format) with 1595 records with a change in prompt ([simulated_tasks_train_updated.csv](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Data/simulated_tasks_train_updated.csv)) - refer to [Training_2.ipynb](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Notebooks/Training_2.ipynb).
 - BitsAndBytes Config is
 ```
 bnb_config = BitsAndBytesConfig(
@@ -115,25 +115,25 @@ training_args = SFTConfig(
 ```
 
 ### Approach 3
-- We repeated approach 2 on a different dataset - conversational dataset with focus on only P2P intent with ~70k training records - refer to [02_Training.ipynb](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Notebooks/02_Training.ipynb).
+- We repeated approach 2 on a different dataset - conversational dataset with focus on only P2P intent with ~70k training records - refer to [02_Training.ipynb](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Notebooks/02_Training.ipynb).
 - We fine tuned Qwen 14B model for just one epoch.
 
 
 ## GRPO Approach
-- We attempted to use GRPO on Qwen 14B Instruct model using the dataset (Prompt-Completion format) with 1595 records (simulated_tasks_train.jsonl) - refer to [qwen_RL_GRPO.ipynb](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Notebooks/qwen_RL_GRPO.ipynb).
+- We attempted to use GRPO on Qwen 14B Instruct model using the dataset (Prompt-Completion format) with 1595 records (simulated_tasks_train.jsonl) - refer to [qwen_RL_GRPO.ipynb](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Notebooks/qwen_RL_GRPO.ipynb).
 - Reward system is designed to execute the model completion (code) and based on the code execution result the reward would be assigned - if code execution is erroring out give -1 reward and if successful give +1 reward. Basically, iterate through the total number of interactions or until task is completed, to reward in this fashion and get a total reward for the task.
 - Not much analysis has been done on this approach yet and is in our TO-DO list.
 
 
 # Evaluation
 - We primarily used **AppWorld** for the evaluation along with **minimal-react-agent** framework provided by AppWorld.
-- We evaluated Qwen 14B Instruct base model and also evaluated using GPT 4o model - refer to [Base_Inferencing.ipynb](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Notebooks/Base_Inferencing.ipynb).
-- We evaluated our fine tuned model - refer to [FT_Inferencing.ipynb](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Notebooks/FT_Inferencing.ipynb).
+- We evaluated Qwen 14B Instruct base model and also evaluated using GPT 4o model - refer to [Base_Inferencing.ipynb](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Notebooks/Base_Inferencing.ipynb).
+- We evaluated our fine tuned model - refer to [FT_Inferencing.ipynb](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Notebooks/FT_Inferencing.ipynb).
 - We served the models using **vLLM** for inferencing.
 
 
 # Results
-- We see the **pass percentage** of a few tasks has **increased** with our fine tuned model compared with the base model showing at par performance of GPT 4o model - refer to [inferencing_14b_test_normal_updated_23rdJun.csv](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Inferencing_Results/inferencing_14b_test_normal_updated_23rdJun.csv).
+- We see the **pass percentage** of a few tasks has **increased** with our fine tuned model compared with the base model showing at par performance of GPT 4o model - refer to [inferencing_14b_test_normal_updated_23rdJun.csv](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Inferencing_Results/inferencing_14b_test_normal_updated_23rdJun.csv).
 - Below are the pass percentages across different models (the below list _shows only some tasks and NOT all the tasks_ which show improvement in pass percentage):
 
 | Index | Task ID    | Pass Percentage for Qwen 14B Base Model (%) | Pass Percentage for GPT 4o Model (%) | Pass Percentage for Fine Tuned Model (%) |
@@ -160,7 +160,7 @@ training_args = SFTConfig(
 # Challenges Faced
 - We were not successful in doing evaluation using Qwen 32B Instruct model, were getting the following error - 
 
-![error](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Screenshots/32B_error.png "error")
+![error](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Screenshots/32B_error.png "error")
 
 - We were not able to evaluate using ```appworld run``` command to get the TGC and SGC scores.
 
@@ -173,8 +173,8 @@ training_args = SFTConfig(
 - Continue building a robust agentic framework which includes multi agents - **Perception Agent (Critic)**, **Decision Agent (Actor)** and more. - 2-3 days of effort
     - Plan to use our fine tuned model for the **Decision Agent**.
 
-    ![Perception Output](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Screenshots/Perception_Output.png "Perception Output")
+    ![Perception Output](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Screenshots/Perception_Output.png "Perception Output")
     
-    ![Decision Graph](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Screenshots/Decision_Graph.png "Decision Graph")
+    ![Decision Graph](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Screenshots/Decision_Graph.png "Decision Graph")
     
-    ![Decision Code Execution](https://github.paypal.com/paypalcorp/neural-alchemists-ftf-hackathon/blob/main/Screenshots/Decision_Code_Execution.png "Decision Code Execution")
+    ![Decision Code Execution](https://github.com/SomaKorada07/ERA3/blob/main/CapstoneProject/Screenshots/Decision_Code_Execution.png "Decision Code Execution")
